@@ -8,7 +8,22 @@
 import scrapy
 
 
-class GuardianukscraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Article(scrapy.Item):
+    title = scrapy.Field()
+    desc = scrapy.Field()
+    author = scrapy.Field()
+    date_published = scrapy.Field()
+    body = scrapy.Field()
+    keywords = scrapy.Field()
+    comments_url = scrapy.Field()
+    comments = scrapy.Field()
+
+class Comment(scrapy.Item):
+    comment_id = scrapy.Field()
+    author = scrapy.Field()
+    author_id = scrapy.Field()
+    reply_count = scrapy.Field()
+    timestamp = scrapy.Field()
+    reply_to_author = scrapy.Field()
+    reply_to_comment = scrapy.Field()
+    content = scrapy.Field()
