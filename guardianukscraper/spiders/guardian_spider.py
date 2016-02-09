@@ -36,14 +36,14 @@ class GuardianSpider(scrapy.Spider):
         for c in page_comments:
             comment = Comment()
 
-            comment['comment_id']       = response.xpath('@data-comment-id').extract()
-            comment['author']           = response.xpath('@data-comment-author').extract()
-            comment['author_id']        = response.xpath('@data-comment-author-id').extract()
-            comment['reply_count']      = response.xpath('@data-comment-replies').extract()
-            comment['timestamp']        = response.xpath('@data-comment-timestamp').extract()
-            comment['reply_to_author']  = response.xpath('.//span[@class="d-comment__reply-to-author"]').extract()[0]
-            comment['reply_to_comment'] = response.xpath('.//a[contains(@href, "#comment-")]/@href').extract()[0]
-            comment['content']          = response.xpath('.//div[@itemprop="text" and @class="d-comment__body"]/*/text()').extract()
+            comment['comment_id']       = c.xpath('@data-comment-id').extract()
+            comment['author']           = c.xpath('@data-comment-author').extract()
+            comment['author_id']        = c.xpath('@data-comment-author-id').extract()
+            comment['reply_count']      = c.xpath('@data-comment-replies').extract()
+            comment['timestamp']        = c.xpath('@data-comment-timestamp').extract()
+            comment['reply_to_author']  = c.xpath('.//span[@class="d-comment__reply-to-author"]').extract()
+            comment['reply_to_comment'] = c.xpath('.//a[contains(@href, "#comment-")]/@href').extract()
+            comment['content']          = c.xpath('.//div[@itemprop="text" and @class="d-comment__body"]/*/text()').extract()
 
             article['comments'].append(comment)
 
