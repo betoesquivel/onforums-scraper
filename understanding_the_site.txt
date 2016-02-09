@@ -1,0 +1,28 @@
+# How an article URL with no comment section looks
+http://www.theguardian.com/world/2016/feb/09/bavaria-train-crash-german-police-report-deaths-and-injuries
+# How an article URL with comment section looks
+
+# Extracting Article Data
+span[@itemscope] ??? Check if all important bits of info have attr itemscope
+body/article
+
+## Title
+header/h1[@itemprop="headline"]
+## Description
+header/meta[@itemprop="description"]/@content
+## Author
+span[@itemscope and @itemtype="http://schema.org/Person" and @itemprop="author"]
+## Published Datetime
+time[@itemprop="datePublished"]/@datetime
+?? It also has data-timestamp attribute... maybe that's easier to use in python
+## Body
+div[@itemprop="articleBody"]/p
+## Keywords
+a[@itemprop="keywords"] Multiple keywords!!
+## Comment URL
+a[@data-link-name="View all comments"]/@href
+a[href="http://www.theguardian.com/discussion/p/<CODE>"] ?? regex in href?
+
+
+# Extracting Comments Data
+
