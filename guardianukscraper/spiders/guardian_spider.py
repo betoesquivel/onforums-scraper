@@ -43,7 +43,7 @@ class GuardianSpider(scrapy.Spider):
             comment['timestamp']        = c.xpath('@data-comment-timestamp').extract()
             comment['reply_to_author']  = c.xpath('.//span[@class="d-comment__reply-to-author"]').extract()
             comment['reply_to_comment'] = c.xpath('.//a[contains(@href, "#comment-")]/@href').extract()
-            comment['content']          = c.xpath('.//div[@itemprop="text" and @class="d-comment__body"]/*/text()').extract()
+            comment['content']          = c.xpath('.//div[@itemprop="text"]/descendant-or-self::text()').extract()
 
             article['comments'].append(comment)
 
