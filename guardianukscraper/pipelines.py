@@ -9,10 +9,8 @@ from scraper.guardianukscraper import settings
 from scrapy.settings import Settings
 import logging
 
-
-#class GuardianukscraperPipeline(object):
-    #def process_item(self, item, spider):
-        #return item
+from summarizer.summarizer import summarize
+import collections
 
 class MongoDBPipeline(object):
 
@@ -26,13 +24,19 @@ class MongoDBPipeline(object):
         db = connection[sets['MONGODB_DB']]
         self.collection = db[sets['MONGODB_COLLECTION']]
 
+    def convert_keys_to_string(self, dictionary):
+        """Recursively converts dictionary keys to strings."""
+        if not isinstance(dictionary, dict):
+            return dictionary
+
+        return dict((str(k), self.convert_keys_to_string(v))
+            for k, v in dictionary.items())
+
     def process_item(self, item, spider):
         valid = True
-        #for data in item:
-            #if not data:
-                #valid = False
-                #raise DropItem("Missing {0}!".format(data))
         if item:
-            self.collection.insert(dict(item))
-            logging.log(logging.INFO, "Article added.")
+            summary = summarize(dict(item))
+            str_key_summary = self.convert_keys_to_string(summary)
+            self.collection.insert_one(str_key_summary)
+            logging.log(logging.INFO, "Summary added.")
         return item
